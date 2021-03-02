@@ -22,7 +22,7 @@ def bytearrayxor(a, b):
     if len(a) > len(b):
         return bytearray(x^y for x,y in zip(a[:len(b)], b))
     else:
-        return bytearray(x^y for x,y in zip(a, a[:len(b)]))
+        return bytearray(x^y for x,y in zip(a, b[:len(a)]))
 
 def testdecrypt(xored, crib):
     for offset in range(0, len(xored) - len(crib) + 1):
@@ -33,9 +33,10 @@ def testdecrypt(xored, crib):
             print("%3d %s" % (offset, piece))
 
 def main():
-    ct1=(decrypthex(CT[0]))
+    ct1=(decrypthex(target_CT))
     ct2=(decrypthex(CT[1]))
     xored=(bytearrayxor(ct1, ct2))
+    print (xored)
     crib = bytearray(" the ",'utf-8') # initial crib
     testdecrypt(xored, crib)
 
