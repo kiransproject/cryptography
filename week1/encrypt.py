@@ -20,7 +20,7 @@ def bytearrayxor(a, b):
     if len(a) > len(b):
         return bytearray(x^y for x,y in zip(a[:len(b)], b))
     else:
-        return bytearray(x^y for x,y in zip(a, b[:len(a)]))
+        return bytearray(x^y for x,y in zip(a, b))
 
 def testdecrypt(xored, crib): # tests with a crib, copied from https://crypto.stackexchange.com/questions/33428/how-to-xor-two-hex-values-and-am-i-doing-crib-dragging-correctly-otp/33429#33429
     for offset in range(0, len(xored) - len(crib) + 1):
@@ -45,9 +45,18 @@ def main():
                 tempmatrix[j]=(bytearrayxor(CTbytes[i], CTbytes[j]))
         matrix[i]=(tempmatrix) # now all possible messages are xored with each other
 
-    space1 = ((((" ")) * shortestCT/2).encode()) #create a byte array of the correct length, its shortestCT/2 as hex is 4 bits, so to convert to bytes, need to /2
-    
-    
+    space1 = ((((" ")) * int(int(shortestCT)/2)).encode()) #create a byte array of the correct length, its shortestCT/2 as hex is 4 bits, so to convert to bytes, need to /2
+    matrix2= [[]] * len(CT)
+    for i in range(0, len(CTbytes)):
+        tempmatrix = [None] * len(CT)
+        for j in range(0, ((len(CTbytes))-1)):
+            if i == j: # 0,0 doesnt exists or 1,1 etc in the original matrix
+                continue 
+            else:
+                tempmatrix[j]=(bytearrayxor(matrix[i][j], space1))
+        matrix2[i]=(tempmatrix) # now all possible messages are xored with each other
+        
+    print (matrix2)
 
 if __name__ == "__main__":
     main()
