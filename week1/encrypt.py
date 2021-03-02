@@ -24,10 +24,21 @@ def bytearrayxor(a, b):
     else:
         return bytearray(x^y for x,y in zip(a, a[:len(b)]))
 
+def testdecrypt(xored, crib):
+    for offset in range(0, len(xored) - len(crib) + 1):
+        piece = xored[offset : offset + len(crib)]
+        piece = bytearray(a^b for a,b in zip(crib, piece))
+        if all(32 <= c <= 126 for c in piece): # check its an ascii character of interest
+            piece = ("." * offset) + piece.decode('ascii') + ("." * (len(xored) - len(crib) - offset))
+            print("%3d %s" % (offset, piece))
+
 def main():
     ct1=(decrypthex(CT[0]))
     ct2=(decrypthex(CT[1]))
-    print (bytearrayxor(ct1, ct2))
+    xored=(bytearrayxor(ct1, ct2))
+    crib = bytearray(" the ",'utf-8') # initial crib
+    testdecrypt(xored, crib)
+
 ##    xor1=(int(CT[0], 16) ^ int(CT[1],16))
 #    space1 = ((ord(" ")) * len(hex(xor1)))
 #    print (space1)
