@@ -55,8 +55,9 @@ def main():
             else:
                 tempmatrix[j]=(bytearrayxor(matrix[i][j], space1))
         matrix2[i]=(tempmatrix) # now all possible messages are xored with each other
-        
-    print (matrix2)
+
+    # After xor with space, if the ascii char is within [a-zA-Z] its a candidate, as lowercase xor space = uppercase and vice versa 
+    print (matrix2[1][5][1])
 
 if __name__ == "__main__":
     main()
