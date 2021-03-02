@@ -15,8 +15,27 @@ def strxor(a, b):     # xor two strings of different lengths
 #    print c.encode('hex')
 #    return c
 
+def decrypthex(msg): # this will convert the hex into a byte array
+    return bytearray.fromhex(msg) 
+
+def bytearrayxor(a, b):
+    if len(a) > len(b):
+        return bytearray(x^y for x,y in zip(a[:len(b)], b))
+    else:
+        return bytearray(x^y for x,y in zip(a, a[:len(b)]))
+
 def main():
-    print(CT[0])
+    ct1=(decrypthex(CT[0]))
+    ct2=(decrypthex(CT[1]))
+    print (bytearrayxor(ct1, ct2))
+##    xor1=(int(CT[0], 16) ^ int(CT[1],16))
+#    space1 = ((ord(" ")) * len(hex(xor1)))
+#    print (space1)
+#    print (xor0.decode('hex'))
+#    xor1=(strxor(CT[0],CT[1]))
+#    xor
+#    spacel= " " * 
+#    xorwithspace=(xor1,
 
 if __name__ == "__main__":
     main()
