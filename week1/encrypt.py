@@ -37,12 +37,15 @@ def main():
     for a in range(0, len(CT)):
         CTbytes[a]=(hextobyte(((CT[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
     for i in range(0, len(CTbytes)):
+        tempmatrix = [None] * len(CT)
         for j in range(0, len(CTbytes)):
             if i == j: 
                 continue 
             else:
-                matrix[i].append(bytearrayxor(CTbytes[i], CTbytes[j]))
-      
+                tempmatrix[j]=(bytearrayxor(CTbytes[i], CTbytes[j]))
+        matrix[i]=(tempmatrix)
+
+
 #    ct1=(decrypthex(target_CT))
 #    ct2=(decrypthex(CT[7]))
 #    xored=(bytearrayxor(ct1, ct2))
