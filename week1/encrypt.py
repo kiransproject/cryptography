@@ -31,11 +31,18 @@ def testdecrypt(xored, crib): # tests with a crib, copied from https://crypto.st
             print("%3d %s" % (offset, piece))
 
 def main():
-    matrix= [None] * len(CT) # our matrix of values
+    CTbytes= [None] * len(CT) # our matrix of values
+    matrix= [[]] * len(CT)
     shortestCT=(len(min(CT, key=len))) # find the shortest CT
     for a in range(0, len(CT)):
-        matrix[a]=(hextobyte(((CT[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
-    print (matrix)
+        CTbytes[a]=(hextobyte(((CT[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
+    for i in range(0, len(CTbytes)):
+        for j in range(0, len(CTbytes)):
+            if i == j: 
+                continue 
+            else:
+                matrix[i].append(bytearrayxor(CTbytes[i], CTbytes[j]))
+      
 #    ct1=(decrypthex(target_CT))
 #    ct2=(decrypthex(CT[7]))
 #    xored=(bytearrayxor(ct1, ct2))
