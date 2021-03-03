@@ -34,6 +34,7 @@ def main():
     CTbytes= [None] * len(CT) # our matrix of values
     matrix= [[]] * len(CT)
     shortestCT=(len(min(CT, key=len))) # find the shortest CT
+    space1 = ((((" ")) * int(int(shortestCT)/2)).encode()) #create a byte array of the correct length, its shortestCT/2 as hex is 4 bits, so to convert to bytes, need to /2
     for a in range(0, len(CT)):
         CTbytes[a]=(hextobyte(((CT[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
     for i in range(0, len(CTbytes)):
@@ -43,21 +44,11 @@ def main():
                 continue 
             else:
                 tempmatrix[j]=(bytearrayxor(CTbytes[i], CTbytes[j]))
+                tempmatrix[j]=(bytearrayxor(tempmatrix[j], space1))            
         matrix[i]=(tempmatrix) # now all possible messages are xored with each other
 
-    space1 = ((((" ")) * int(int(shortestCT)/2)).encode()) #create a byte array of the correct length, its shortestCT/2 as hex is 4 bits, so to convert to bytes, need to /2
-    matrix2= [[]] * len(CT)
-    for i in range(0, len(CTbytes)):
-        tempmatrix = [None] * len(CT)
-        for j in range(0, ((len(CTbytes))-1)):
-            if i == j: # 0,0 doesnt exists or 1,1 etc in the original matrix
-                continue 
-            else:
-                tempmatrix[j]=(bytearrayxor(matrix[i][j], space1))
-        matrix2[i]=(tempmatrix) # now all possible messages are xored with each other
-
     # After xor with space, if the ascii char is within [a-zA-Z] its a candidate, as lowercase xor space = uppercase and vice versa 
-    print (matrix2[1][5][1])
+    print (matrix[1][5][1])
 
 if __name__ == "__main__":
     main()
