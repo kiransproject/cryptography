@@ -48,7 +48,14 @@ def main():
         matrix[i]=(tempmatrix) # now all possible messages are xored with each other
 
     # After xor with space, if the ascii char is within [a-zA-Z] its a candidate, as lowercase xor space = uppercase and vice versa 
-    print (matrix[1][5][1])
+    for d in range(0, len(CTbytes)):
+        for e in range(0, len(CTbytes)):
+            if d == e:
+                continue
+            else:
+                for f in range(0, int((int(shortestCT))/2)):
+                    if ((65 <= matrix[d][e][f] <= 90) or (97<= matrix[d][e][f] <=122)):
+                        print ("possible space or letter")
 
 if __name__ == "__main__":
     main()
