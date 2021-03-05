@@ -48,9 +48,10 @@ def main():
         matrix[i]=(tempmatrix) # now all possible messages are xored with each other
 
     # After xor with space, if the ascii char is within [a-zA-Z] its a candidate, as lowercase xor space = uppercase and vice versa 
+    size=[0] * len(CT)
+    mostlikelytobeaspace=[None] * len(CT)
+    columnlist=[None] * len(CT)
     for d in range(0, len(CTbytes)):
-        columnlist=[]
-        size=0
         for f in range(0, int((int(shortestCT))/2)):
             templist=[]
             for e in range(0, len(CTbytes)):
@@ -59,10 +60,19 @@ def main():
                 else:
                     if ((65 <= matrix[d][e][f] <= 90) or (97<= matrix[d][e][f] <=122)):
                         templist.extend((chr(matrix[d][e][f]),e ))
-            if (len(templist) > size):
-                size=len(templist)                                      
-                mostlikelytobeaspace=f
-                columnlist=templist
-        print("the column of they key most likely to be a space is ", mostlikelytobeaspace ," with a total count of ", size, " with the chracters to be xor'd being ",columnlist)
+            if (len(templist) > size[d]):
+                size[d]=len(templist)                                      
+                mostlikelytobeaspace[d]=f
+                columnlist[d]=templist
+        print("the column of they key most likely to be a space is ", mostlikelytobeaspace[d] ," for CT ", d, " with a total count of ", size[d], " with the chracters to be xor'd being ",columnlist[d])
+    PT= [[]] * len(CT)
+    for l in range (0, len(CT)):
+        for m in range(0, (len(columnlist[l])), 2):
+            temprow=columnlist[l][1+m]
+            tempcolumn=columnlist[l][m]
+            PT[temprow].append(tempcolumn)
+    print (PT)
+
+
 if __name__ == "__main__":
     main()
