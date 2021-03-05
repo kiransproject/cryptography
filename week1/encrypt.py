@@ -58,11 +58,11 @@ def main():
                     continue
                 else:
                     if ((65 <= matrix[d][e][f] <= 90) or (97<= matrix[d][e][f] <=122)):
-                        templist.append(chr(matrix[d][e][f]))
+                        templist.extend((chr(matrix[d][e][f]),e ))
             if (len(templist) > size):
                 size=len(templist)                                      
                 mostlikelytobeaspace=f
                 columnlist=templist
-        print("the column of they key most likely to be a space is ", mostlikelytobeaspace ," with a total count of ", size, " with the chracters to be xor'd being ", columnlist)
+        print("the column of they key most likely to be a space is ", mostlikelytobeaspace ," with a total count of ", size, " with the chracters to be xor'd being ",columnlist)
 if __name__ == "__main__":
     main()
