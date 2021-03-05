@@ -49,13 +49,20 @@ def main():
 
     # After xor with space, if the ascii char is within [a-zA-Z] its a candidate, as lowercase xor space = uppercase and vice versa 
     for d in range(0, len(CTbytes)):
-        for e in range(0, len(CTbytes)):
-            if d == e:
-                continue
-            else:
-                for f in range(0, int((int(shortestCT))/2)):
+        columnlist=[]
+        size=0
+        for f in range(0, int((int(shortestCT))/2)):
+            templist=[]
+            for e in range(0, len(CTbytes)):
+                if d == e:
+                    continue
+                else:
                     if ((65 <= matrix[d][e][f] <= 90) or (97<= matrix[d][e][f] <=122)):
-                        print ("possible space or letter")
-
+                        templist.append(chr(matrix[d][e][f]))
+            if (len(templist) > size):
+                size=len(templist)                                      
+                mostlikelytobeaspace=f
+                columnlist=templist
+        print("the column of they key most likely to be a space is ", mostlikelytobeaspace ," with a total count of ", size, " with the chracters to be xor'd being ", columnlist)
 if __name__ == "__main__":
     main()
