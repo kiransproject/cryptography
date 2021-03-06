@@ -61,11 +61,13 @@ def main():
                 else:
                     if ((65 <= matrix[d][e][f] <= 90) or (97<= matrix[d][e][f] <=122)):
                         templist.extend((chr(matrix[d][e][f]),e ))
+            print (templist)
             if (len(templist) > size[d]):
                 size[d]=len(templist)                                      
                 mostlikelytobeaspace[d]=f
                 columnlist[d]=templist
-        print("the column of they key most likely to be a space is ", mostlikelytobeaspace[d] ," for CT ", d, " with a total count of ", size[d], " with the chracters to be xor'd being ",columnlist[d])
+#        print("the column of they key most likely to be a space is ", mostlikelytobeaspace[d] ," for CT ", d, " with a total count of ", size[d], " with the chracters to be xor'd being ",columnlist[d])
+
     PT= [[0 for y in range(int(int(shortestCT)/2))] for x in range(len(CT))]
     for l in range (0, len(CT)):
         for m in range(0, (len(columnlist[l])), 2):
@@ -74,7 +76,18 @@ def main():
             column=mostlikelytobeaspace[l]
             PT[temprow][column]=value
         PT[l][mostlikelytobeaspace[l]]=" "
-    print(np.array(PT))
+#    print(np.array(PT))
+    
+    KEY= [[0 for y in range(int(int(shortestCT)/2))] for x in range(len(CT))]
+    for p in range(0, len(PT)):
+         for q in range(0, len(PT[p])):
+            if PT[p][q] == 0:
+                continue
+            else:
+                KEY[p][q]=strxor((PT[p][q].lower()), CT[p][q])
+#                print (KEY[p][q])
+#    print ("..............................")
+#    print (np.array(KEY))
     
 if __name__ == "__main__":
     main()
