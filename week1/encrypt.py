@@ -73,6 +73,7 @@ def main():
             value=columnlist[l][m]
             column=mostlikelytobeaspace[l]
             PT[temprow][column]=value
+        PT[l][mostlikelytobeaspace[l]]=" "
     print(np.array(PT))
     
 if __name__ == "__main__":
