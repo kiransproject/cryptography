@@ -23,6 +23,23 @@ def bytearrayxor(a, b):
     else:
         return bytearray(x^y for x,y in zip(a, b))
 
+def convertCTtobytes(CTarray):
+    CTbytes= [None] * len(CTarray) # our matrix of values
+    shortestCT=int(len(min(CTarray, key=len))) # find the shortest CT
+    for a in range(0, len(CTarray)):
+        CTbytes[a]=(hextobyte(((CTarray[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
+    spacexorxor(int(shortestCT), CTbytes)
+
+#    return shortestCT, CTbytes
+
+def spacexorxor(lenCT,CTarray):
+    for i in range(0, int(lenCT/2)):
+        for j in range(0, len(CTarray)):
+            for k in range(0, len(CTarray)):
+               ## xor using byterarray xor and then xor with space, one that has done, if value between ascii values, using j,k, add as potential flag, and save char as well
+          
+    
+
 def testdecrypt(xored, crib): # tests with a crib, copied from https://crypto.stackexchange.com/questions/33428/how-to-xor-two-hex-values-and-am-i-doing-crib-dragging-correctly-otp/33429#33429
     for offset in range(0, len(xored) - len(crib) + 1):
         piece = xored[offset : offset + len(crib)]
@@ -33,11 +50,21 @@ def testdecrypt(xored, crib): # tests with a crib, copied from https://crypto.st
 
 def main():
     CTbytes= [None] * len(CT) # our matrix of values
+    convertCTtobytes(CT) #shortestCT is the shortestCT length in hex, and CTbytes, is our hex now converted into a byte array, ready to xor
+    breakpoint()
+
     matrix= [[]] * len(CT)
-    shortestCT=(len(min(CT, key=len))) # find the shortest CT
     space1 = ((((" ")) * int(int(shortestCT)/2)).encode()) #create a byte array of the correct length, its shortestCT/2 as hex is 4 bits, so to convert to bytes, need to /2
-    for a in range(0, len(CT)):
-        CTbytes[a]=(hextobyte(((CT[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
+    for i in range(0, int(shortestCT/2)):
+        for j in range(0, len(CTbytes)):
+            for k in range(0, len(CTbytes)):
+                if k == j: 
+                    continue 
+                else:
+                    print (CTbytes[j][i]) 
+        
+    
+
     for i in range(0, len(CTbytes)):
         tempmatrix = [None] * len(CT)
         for j in range(0, len(CTbytes)):
@@ -52,10 +79,10 @@ def main():
     size=[0] * len(CT)
     mostlikelytobeaspace=[None] * len(CT)
     columnlist=[None] * len(CT)
-    for d in range(0, len(CTbytes)):
-        for f in range(0, int((int(shortestCT))/2)):
+    for f in range(0, int((int(shortestCT))/2)):
+        for e in range(0, len(CTbytes)):
             templist=[]
-            for e in range(0, len(CTbytes)):
+            for d in range(0, len(CTbytes)):
                 if d == e:
                     continue
                 else:
