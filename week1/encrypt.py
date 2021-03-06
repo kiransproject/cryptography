@@ -17,11 +17,14 @@ def strxor(a, b):     # xor two strings of different lengths
 def hextobyte(msg): # this will convert the hex into a byte array
     return bytearray.fromhex(msg) 
 
-def bytearrayxor(a, b):
+def bytexor(a, b):
     if len(a) > len(b):
         return bytearray(x^y for x,y in zip(a[:len(b)], b))
     else:
         return bytearray(x^y for x,y in zip(a, b))
+
+def xor(a,b):
+    return a^b
 
 def convertCTtobytes(CTarray):
     CTbytes= [None] * len(CTarray) # our matrix of values
@@ -33,9 +36,22 @@ def convertCTtobytes(CTarray):
 #    return shortestCT, CTbytes
 
 def spacexorxor(lenCT,CTarray):
+    space=ord(" ")
     for i in range(0, int(lenCT/2)):
+        templist=[[] for i in range(len(CTarray))]
         for j in range(0, len(CTarray)):
             for k in range(0, len(CTarray)):
+                if j==k: # as we are about to xor CT's with each other
+                    continue
+                else:
+                    result=xor((xor(CTarray[j][i],CTarray[k][i])), space)
+                    if ((65 <= result <= 90) or (97<= result <=122)):
+                        templist[j].append(chr(result))
+        print (templist)
+        #print (np.array(templist))
+#            findspace(templist)
+#        print("the column of they key most likely to be a space is ", mostlikelytobeaspace[d] ," for CT ", d, " with a total count of ", size[d], " with the chracters to be xor'd being ",columnlist[d])
+                    
                ## xor using byterarray xor and then xor with space, one that has done, if value between ascii values, using j,k, add as potential flag, and save char as well
           
     
