@@ -23,9 +23,11 @@ def findspace(listspace): # this finds the most populated position, hence the mo
 
 def populatePT(posistion, values, i, PT):
     PT[posistion][i]=" "
-    for 
-    print (PT)
-    breakpoint()
+    for m in range(0, (len(values)), 2):
+        temprow=values[1+m]
+        value=values[m]
+        PT[temprow][i]=value
+    return PT
     
 
 def spacexorxor(lenCT,CTarray):
@@ -44,7 +46,9 @@ def spacexorxor(lenCT,CTarray):
         #print (np.array(templist))
         position=findspace(templist)
         PT=populatePT(position, templist[position],i, PT)
-    
+    print (PT[9])
+    breakpoint()
+ 
 def convertCTtobytes(CTarray):
     CTbytes= [None] * len(CTarray) # our matrix of values
     shortestCT=int(len(min(CTarray, key=len))) # find the shortest CT
