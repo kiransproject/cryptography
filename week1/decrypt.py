@@ -1,4 +1,4 @@
-import sys, array
+import sys, array, binascii, base64
 import numpy as np
 
 
@@ -27,9 +27,13 @@ def populatePT(position, values, i, PT):
         value=values[m]
         PT[temprow][i]=value
     return PT
+
+def printpt(PT):
+    for p in PT:
+        print(''.join(p))
     
 
-def spacexorxor(lenCT,CTarray):
+def spacexorxor(lenCT,CTarray, originalCT):
     space=ord(" ")
     lenCT=int(lenCT/2) 
     PT=[["*" for k in range(lenCT)] for l in range(len(CTarray))]
@@ -42,34 +46,12 @@ def spacexorxor(lenCT,CTarray):
                 else:
                     result1=(xor(CTarray[j][i],CTarray[k][i]))
                     result2=xor(result1, space)
+                    #if ((32 <= result2 < 128) ):
                     if ((65 <= result2 <= 90) or (97<= result2 <=122)):
                         templist[j].extend((chr(result2),k))
-#        print (np.array(templist))
-#        breakpoint()
         position=findspace(templist)
         PT=populatePT(position, templist[position],i,PT)
-    print(''.join(PT[0]))
-    print(''.join(PT[1]))
-    print(''.join(PT[2]))
-    print(''.join(PT[3]))
-    print(''.join(PT[4]))
-    print(''.join(PT[5]))
-    print(''.join(PT[6]))
-    print(''.join(PT[7]))
-    print(''.join(PT[8]))
-    print(''.join(PT[9]))
-    findkey(PT, lenCT,CTarray)
-    return PT
-
-def findkey(PT, length,CT):
-    key=[["*" for k in range(length)] for l in range(len(PT))]
-    temp=(''.join(PT[9]))
-    print(CT[9]) 
-    value1=strxor(temp,CT[9] )
-    print (value1)
-    
-    
-    
+    printpt(PT)
     
  
 def convertCTtobytes(CTarray):
@@ -77,8 +59,7 @@ def convertCTtobytes(CTarray):
     shortestCT=int(len(min(CTarray, key=len))) # find the shortest CT
     for a in range(0, len(CTarray)):
         CTbytes[a]=(hextobyte(((CTarray[a])[:shortestCT]))) # populate the matrix with bytearray from the hex, ready for XOR
-    PTsofar=spacexorxor(int(shortestCT), CTbytes)
-   # findkey(PTsofar,CTarray)
+    spacexorxor(int(shortestCT), CTbytes, CTarray)
 
 
 def testdecrypt(xored, crib): # tests with a crib, copied from https://crypto.stackexchange.com/questions/33428/how-to-xor-two-hex-values-and-am-i-doing-crib-dragging-correctly-otp/33429#33429
