@@ -2,7 +2,8 @@ import sys,binascii
 from Crypto.Cipher import AES
 
 def removepadding(plaintext):
-    print (plaintext[-1:])
+    return (int.from_bytes(plaintext[-1][-1:], "big"))
+    
     
 
 def xor(c,d):
@@ -11,14 +12,16 @@ def xor(c,d):
 def decryptAES(key, IV, CT):
     plaintext=[]
     length= int(int(len(CT)/16))
-    cipher = AES.new(key,AES.MODE_CBC)
+    cipher = AES.new(key,AES.MODE_ECB)
     for i in range (0,len(CT),16):
         if i==0:
             plaintext.append(xor((cipher.decrypt(CT[i:i+16])),IV))
         else:
-            plaintext.append(xor((cipher.decrypt(CT[i:i+16])),CT[i-16:i-1]))
-    print (plaintext)
-#    removepadding(plaintextcombined)
+            plaintext.append(xor((cipher.decrypt(CT[i:i+16])),CT[i-16:i]))
+    paddingint=removepadding(plaintext)
+    plaintextcomb=b''.join(plaintext)
+    print (plaintextcomb[:-paddingint])
+    
     
 
 def decrypt(key, ciphertext):
