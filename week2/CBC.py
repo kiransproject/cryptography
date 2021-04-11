@@ -1,8 +1,32 @@
-import sys
+import sys,binascii
+from Crypto.Cipher import AES
+
+#def removepadding(plaintext):
+    
+
+def xor(c,d):
+    return (bytes(a ^ b for (a,b) in zip (c,d)))
+
+def decryptAES(key, IV, CT):
+    length= int(int(len(CT)/16))
+    plaintext=[]
+    for i in range (length):
+        if i==0:
+            cipher = AES.new(key, AES.MODE_EAX)
+            plaintext.append(xor(cipher.decrypt(CT[:16]),IV))
+        else:
+            cipher = AES.new(key, AES.MODE_EAX)
+            plaintext.append(xor(cipher.decrypt(CT[i*16:((i*16)+16)]),CT[(i-1)*16:(((i-1)*16)+16)]))
+    print (plaintext)
+#    removepadding(plaintext)
+    
 
 def decrypt(key, ciphertext):
-    print (key, ciphertext) 
-
+    CT=binascii.unhexlify(ciphertext)
+    key=binascii.unhexlify(key)
+    IV=CT[:16]
+    CT=CT[16:]
+    decryptAES(key, IV, CT)
 
 def main():
     Key=["140b41b22a29beb4061bda66b6747e14", "140b41b22a29beb4061bda66b6747e14"]
