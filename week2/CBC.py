@@ -1,24 +1,24 @@
 import sys,binascii
 from Crypto.Cipher import AES
 
-#def removepadding(plaintext):
+def removepadding(plaintext):
+    print (plaintext[-1:])
     
 
 def xor(c,d):
     return (bytes(a ^ b for (a,b) in zip (c,d)))
 
 def decryptAES(key, IV, CT):
-    length= int(int(len(CT)/16))
     plaintext=[]
-    for i in range (length):
+    length= int(int(len(CT)/16))
+    cipher = AES.new(key,AES.MODE_CBC)
+    for i in range (0,len(CT),16):
         if i==0:
-            cipher = AES.new(key, AES.MODE_EAX)
-            plaintext.append(xor(cipher.decrypt(CT[:16]),IV))
+            plaintext.append(xor((cipher.decrypt(CT[i:i+16])),IV))
         else:
-            cipher = AES.new(key, AES.MODE_EAX)
-            plaintext.append(xor(cipher.decrypt(CT[i*16:((i*16)+16)]),CT[(i-1)*16:(((i-1)*16)+16)]))
+            plaintext.append(xor((cipher.decrypt(CT[i:i+16])),CT[i-16:i-1]))
     print (plaintext)
-#    removepadding(plaintext)
+#    removepadding(plaintextcombined)
     
 
 def decrypt(key, ciphertext):
